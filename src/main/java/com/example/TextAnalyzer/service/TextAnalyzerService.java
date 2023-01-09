@@ -4,7 +4,9 @@ import com.example.TextAnalyzer.model.AnalyzedWord;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TextAnalyzerService {
@@ -16,8 +18,10 @@ public class TextAnalyzerService {
         for (int i = 0; i < words.length; i++) {
             processWord(analyzedWords, words[i], i);
         }
-
-        return analyzedWords;
+        return analyzedWords
+                .stream()
+                .sorted(Comparator.comparing(word -> word.getWord().toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     private void processWord(List<AnalyzedWord> analyzedWords, String word, int position) {

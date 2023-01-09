@@ -20,9 +20,9 @@ class TextAnalyzerServiceTest {
     @Test
     void analyze() {
         var expected = List.of(
+                new AnalyzedWord("do", 3, List.of(2, 3, 5)),
                 new AnalyzedWord("Ola", 1, List.of(0)),
                 new AnalyzedWord("poszła", 1, List.of(1)),
-                new AnalyzedWord("do", 3, List.of(2, 3, 5)),
                 new AnalyzedWord("przedszkola", 1, List.of(4))
         );
 
