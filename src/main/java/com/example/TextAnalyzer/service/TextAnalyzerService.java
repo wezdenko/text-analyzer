@@ -10,7 +10,7 @@ import java.util.List;
 public class TextAnalyzerService {
 
     public List<AnalyzedWord> analyze(String text) {
-        var words = text.split("\\s+");
+        var words = text.split("[^A-Za-ząćęłńóśźż]+");
         var analyzedWords = new ArrayList<AnalyzedWord>();
 
         for (int i = 0; i < words.length; i++) {

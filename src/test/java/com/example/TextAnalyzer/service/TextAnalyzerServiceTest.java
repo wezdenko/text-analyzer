@@ -26,7 +26,7 @@ class TextAnalyzerServiceTest {
                 new AnalyzedWord("przedszkola", 1, List.of(4))
         );
 
-        var result = textAnalyzerService.analyze("Ola poszła do do przedszkola do");
+        var result = textAnalyzerService.analyze("Ola-poszła ..do. ((do)) przedszkola,.<\" do");
 
         assertEquals(expected, result);
     }
