@@ -24,6 +24,10 @@ public class TextAnalyzerService {
                 .collect(Collectors.toList());
     }
 
+    public AnalyzedWord getAnalyzedWord(String word) {
+        return new AnalyzedWord(word, 1, List.of(0));
+    }
+
     private void processWord(List<AnalyzedWord> analyzedWords, String word, int position) {
         var doesWordAlreadyExist = addPositionIfWordExists(analyzedWords, word, position);
         if (!doesWordAlreadyExist) {
