@@ -1,20 +1,27 @@
 package com.example.TextAnalyzer.service;
 
 import com.example.TextAnalyzer.model.AnalyzedWord;
+import com.example.TextAnalyzer.repository.AnalyzedWordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class TextAnalyzerServiceTest {
 
     private TextAnalyzerService textAnalyzerService;
+    @Mock
+    private AnalyzedWordRepository analyzedWordRepository;
 
     @BeforeEach
     void beforeEach() {
-        textAnalyzerService = new TextAnalyzerService();
+        textAnalyzerService = new TextAnalyzerService(analyzedWordRepository);
     }
 
     @Test

@@ -22,8 +22,11 @@ public class TextAnalyzerController {
         return ResponseEntity.ok(textAnalyzerService.analyze(text));
     }
 
-    @GetMapping(path = "analyzed/{word}")
+    @GetMapping(path = "/analyzed/{word}")
     public ResponseEntity<AnalyzedWord> get(String word) {
-        return ResponseEntity.ok(textAnalyzerService.getAnalyzedWord(word));
+        return textAnalyzerService
+                .getAnalyzedWord(word)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -1,15 +1,23 @@
 package com.example.TextAnalyzer.service;
 
 import com.example.TextAnalyzer.model.AnalyzedWord;
+import com.example.TextAnalyzer.repository.AnalyzedWordRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class TextAnalyzerService {
+
+    private final AnalyzedWordRepository analyzedWordRepository;
+
+    public TextAnalyzerService(AnalyzedWordRepository analyzedWordRepository) {
+        this.analyzedWordRepository = analyzedWordRepository;
+    }
 
     public List<AnalyzedWord> analyze(String text) {
         var words = text.split("[^A-Za-ząćęłńóśźż]+");
@@ -18,14 +26,14 @@ public class TextAnalyzerService {
         for (int i = 0; i < words.length; i++) {
             processWord(analyzedWords, words[i], i);
         }
-        return analyzedWords
-                .stream()
-                .sorted(Comparator.comparing(word -> word.getWord().toLowerCase()))
-                .collect(Collectors.toList());
+
+        this.analyzedWordRepository.saveAllAndFlush(analyzedWords);
+
+        return sortAnalyzedWords(analyzedWords);
     }
 
-    public AnalyzedWord getAnalyzedWord(String word) {
-        return new AnalyzedWord(word, 1, List.of(0));
+    public Optional<AnalyzedWord> getAnalyzedWord(String word) {
+        return this.analyzedWordRepository.findById(word);
     }
 
     private void processWord(List<AnalyzedWord> analyzedWords, String word, int position) {
@@ -46,5 +54,12 @@ public class TextAnalyzerService {
             }
         }
         return false;
+    }
+
+    private List<AnalyzedWord> sortAnalyzedWords(List<AnalyzedWord> analyzedWords) {
+        return analyzedWords
+                .stream()
+                .sorted(Comparator.comparing(word -> word.getWord().toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
